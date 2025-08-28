@@ -1,0 +1,199 @@
+{
+  "name": "close-all",
+  "displayName": "Advanced Close All",
+  "description": "Advanced VS Code extension for intelligently closing all tabs with multiple modes: save & close, close saved only, or force close all. Supports closing editors, extension details, settings pages, and all other tab types. Features configurable status bar button, custom keybindings, and smart tab management.",
+  "version": "0.0.1",
+  "publisher": "addozhang",
+  "icon": "images/icon.png",
+  "engines": {
+    "vscode": "^1.98.0"
+  },
+  "categories": [
+    "Other",
+    "Productivity"
+  ],
+  "keywords": [
+    "advanced",
+    "close",
+    "editor",
+    "tabs",
+    "save",
+    "productivity",
+    "workspace",
+    "all",
+    "smart",
+    "intelligent"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/addozhang/vscode-close-all-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/addozhang/vscode-close-all-extension/issues"
+  },
+  "homepage": "https://github.com/addozhang/vscode-close-all-extension#readme",
+  "license": "MIT",
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "closeAll.closeSaved",
+        "title": "Close All: Close Saved Editors and Other Tabs",
+        "icon": "$(circle-slash)"
+      },
+      {
+        "command": "closeAll.saveAndCloseAll",
+        "title": "Close All: Save and Close All Tabs",
+        "icon": "$(save-all)"
+      },
+      {
+        "command": "closeAll.closeAllForce",
+        "title": "Close All: Close All Tabs Forcefully",
+        "icon": "$(close-all)"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Advanced Close All",
+      "properties": {
+        "closeAll.keepCurrentActiveEditor": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to keep the current active editor when closing all tabs",
+          "scope": "resource"
+        },
+        "closeAll.showConfirmationDialog": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to show a confirmation dialog before closing all tabs",
+          "scope": "resource"
+        },
+        "closeAll.manageKeybindings": {
+          "type": "string",
+          "default": "Use VS Code Keyboard Shortcuts settings",
+          "description": "To customize keyboard shortcuts, open Command Palette (Ctrl+Shift+P) and search for 'Preferences: Open Keyboard Shortcuts', then filter by 'closeAll'",
+          "scope": "resource",
+          "markdownDescription": "To customize keyboard shortcuts:\n\n1. Open Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`)\n2. Search for `Preferences: Open Keyboard Shortcuts`\n3. Filter by `closeAll` to find extension commands\n\nDefault keybindings:\n- Close Saved + Others: `Ctrl+Alt+W` (Windows/Linux) or `Cmd+Alt+W` (macOS)\n- Save & Close All: `Ctrl+Alt+S` (Windows/Linux) or `Cmd+Alt+S` (macOS)\n- Force Close All: `Ctrl+Alt+F` (Windows/Linux) or `Cmd+Alt+F` (macOS)"
+        },
+        "closeAll.buttonAction": {
+          "type": "string",
+          "default": "closeSaved",
+          "enum": [
+            "closeSaved",
+            "saveAndCloseAll",
+            "closeAllForce"
+          ],
+          "enumDescriptions": [
+            "Close only saved editors and all other tabs",
+            "Save and close all tabs",
+            "Force close all tabs without saving"
+          ],
+          "description": "Action for the close all button",
+          "scope": "resource"
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "closeAll.closeSaved",
+        "key": "ctrl+alt+w",
+        "mac": "cmd+alt+w",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "closeAll.saveAndCloseAll",
+        "key": "ctrl+alt+s",
+        "mac": "cmd+alt+s",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "closeAll.closeAllForce",
+        "key": "ctrl+alt+f",
+        "mac": "cmd+alt+f",
+        "when": "editorTextFocus"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "closeAll.closeSaved",
+          "group": "navigation",
+          "when": "config.closeAll.buttonAction == 'closeSaved'"
+        },
+        {
+          "command": "closeAll.saveAndCloseAll",
+          "group": "navigation",
+          "when": "config.closeAll.buttonAction == 'saveAndCloseAll'"
+        },
+        {
+          "command": "closeAll.closeAllForce",
+          "group": "navigation",
+          "when": "config.closeAll.buttonAction == 'closeAllForce'"
+        }
+      ],
+      "editor/title/context": [
+        {
+          "command": "closeAll.closeSaved",
+          "group": "3_close"
+        },
+        {
+          "command": "closeAll.saveAndCloseAll",
+          "group": "3_close"
+        },
+        {
+          "command": "closeAll.closeAllForce",
+          "group": "3_close"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "closeAll.closeSaved",
+          "when": "view == workbench.view.explorer",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "closeAll.closeSaved"
+        },
+        {
+          "command": "closeAll.saveAndCloseAll"
+        },
+        {
+          "command": "closeAll.closeAllForce"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "npm run check-types && npm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "npm run check-types && npm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@types/sinon": "^17.0.3",
+    "@types/vscode": "^1.98.0",
+    "@typescript-eslint/eslint-plugin": "^8.39.0",
+    "@typescript-eslint/parser": "^8.39.0",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^2.15.0",
+    "esbuild": "^0.25.8",
+    "eslint": "^9.32.0",
+    "npm-run-all": "^4.1.5",
+    "sinon": "^18.0.0",
+    "typescript": "^5.9.2"
+  }
+}
