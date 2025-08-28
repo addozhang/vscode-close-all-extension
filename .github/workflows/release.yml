@@ -5,6 +5,10 @@ on:
     tags:
       - 'v*'  # Triggers on version tags like v1.0.0, v1.1.0, etc.
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -37,12 +41,12 @@ jobs:
       
     - name: Create Release
       id: create_release
-      uses: actions/create-release@v1
+      uses: softprops/action-gh-release@v2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Advanced Close All v${{ steps.get_version.outputs.VERSION }}
+        tag_name: ${{ github.ref_name }}
+        name: Advanced Close All v${{ steps.get_version.outputs.VERSION }}
         body: |
           ## Advanced Close All v${{ steps.get_version.outputs.VERSION }}
           
@@ -64,18 +68,11 @@ jobs:
           
           ### 📄 Documentation
           See the [README](https://github.com/addozhang/vscode-close-all-extension/blob/main/README.md) for detailed usage instructions.
+        files: |
+          ./advanced-close-all-${{ steps.get_version.outputs.VERSION }}.vsix
         draft: false
         prerelease: false
-        
-    - name: Upload Extension Package
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./advanced-close-all-${{ steps.get_version.outputs.VERSION }}.vsix
-        asset_name: advanced-close-all-${{ steps.get_version.outputs.VERSION }}.vsix
-        asset_content_type: application/zip
+
         
     - name: Upload to Artifacts
       uses: actions/upload-artifact@v4
