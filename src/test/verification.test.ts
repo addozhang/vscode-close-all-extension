@@ -30,7 +30,7 @@ suite('Quick Validation Tests', () => {
         
         const requiredConfigs = [
             'keepCurrentActiveEditor',
-            'showConfirmationDialog',
+            'confirmationDialog',
             'buttonAction'
         ];
         
@@ -74,9 +74,9 @@ suite('Quick Validation Tests', () => {
         );
         
         assert.strictEqual(
-            config.get('showConfirmationDialog'), 
+            config.get('confirmationDialog'), 
             false, 
-            'showConfirmationDialog default value should be false'
+            'confirmationDialog default value should be false'
         );
         
         const buttonAction = config.get('buttonAction', 'closeSaved');

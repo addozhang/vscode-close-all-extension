@@ -73,7 +73,7 @@ function getConfig<T>(key: string, defaultValue: T): T {
           "default": false,
           "description": "Whether to keep the current active editor when closing all editors"
         },
-        "closeAll.showConfirmationDialog": {
+        "closeAll.confirmationDialog": {
           "type": "boolean",
           "default": false,
           "description": "Whether to show a confirmation dialog before closing all editors"

@@ -48,7 +48,7 @@ suite('Close All Extension Test Suite', () => {
         
         // Test default configuration values
         assert.strictEqual(config.get('keepCurrentActiveEditor'), false, 'Should not keep current active editor by default');
-        assert.strictEqual(config.get('showConfirmationDialog'), false, 'Should not show confirmation dialog by default');
+        assert.strictEqual(config.get('confirmationDialog'), false, 'Should not show confirmation dialog by default');
     });
 
     test('Close saved editors command should exist', async () => {
@@ -87,11 +87,11 @@ suite('Configuration Management Tests', () => {
         
         // Test existence of all configuration items
         const keepActiveConfig = config.inspect('keepCurrentActiveEditor');
-        const showConfirmationConfig = config.inspect('showConfirmationDialog');
+        const confirmationConfig = config.inspect('confirmationDialog');
         const buttonActionConfig = config.inspect('buttonAction');
         
         assert.ok(keepActiveConfig, 'keepCurrentActiveEditor configuration should exist');
-        assert.ok(showConfirmationConfig, 'showConfirmationDialog configuration should exist');
+        assert.ok(confirmationConfig, 'confirmationDialog configuration should exist');
         assert.ok(buttonActionConfig, 'buttonAction configuration should exist');
     });
 

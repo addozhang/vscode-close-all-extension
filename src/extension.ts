@@ -173,21 +173,21 @@ export function activate(context: vscode.ExtensionContext) {
     // Register commands
     const closeSavedCommand = vscode.commands.registerCommand('closeAll.closeSaved', async () => {
         const keepActive = getConfig('keepCurrentActiveEditor', false);
-        const showConfirmation = getConfig('showConfirmationDialog', false);
+        const showConfirmation = getConfig('confirmationDialog', false);
         await closeEditors('saved', keepActive, showConfirmation);
     });
     context.subscriptions.push(closeSavedCommand);
 
     const saveAndCloseAllCommand = vscode.commands.registerCommand('closeAll.saveAndCloseAll', async () => {
         const keepActive = getConfig('keepCurrentActiveEditor', false);
-        const showConfirmation = getConfig('showConfirmationDialog', false);
+        const showConfirmation = getConfig('confirmationDialog', false);
         await closeEditors('saveAll', keepActive, showConfirmation);
     });
     context.subscriptions.push(saveAndCloseAllCommand);
 
     const closeAllForceCommand = vscode.commands.registerCommand('closeAll.closeAllForce', async () => {
         const keepActive = getConfig('keepCurrentActiveEditor', false);
-        const showConfirmation = getConfig('showConfirmationDialog', false);
+        const showConfirmation = getConfig('confirmationDialog', false);
         await closeEditors('force', keepActive, showConfirmation);
     });
     context.subscriptions.push(closeAllForceCommand);

@@ -137,7 +137,7 @@ Press `Ctrl+Shift+P` (Windows/Linux) or `Cmd+Shift+P` (macOS) and type:
 - **Default**: `false`
 - **Description**: Keeps the currently active editor open when closing others
 
-#### `closeAll.showConfirmationDialog`
+#### `closeAll.confirmationDialog`
 - **Type**: Boolean
 - **Default**: `false`
 - **Description**: Shows a confirmation dialog with detailed statistics before closing
@@ -156,7 +156,7 @@ Press `Ctrl+Shift+P` (Windows/Linux) or `Cmd+Shift+P` (macOS) and type:
 ```json
 {
   "closeAll.keepCurrentActiveEditor": true,
-  "closeAll.showConfirmationDialog": true,
+  "closeAll.confirmationDialog": true,
   "closeAll.buttonAction": "saveAndCloseAll"
 }
 ```
@@ -190,7 +190,7 @@ Click the status bar button in the bottom-right corner. The button text shows th
 This extension contributes the following settings (accessible via `File > Preferences > Settings` or search `@ext:addozhang.close-all`):
 
 - `closeAll.keepCurrentActiveEditor`: Whether to keep the current active editor when closing all tabs (default: `false`)
-- `closeAll.showConfirmationDialog`: Whether to show a confirmation dialog before closing all tabs with detailed statistics (default: `false`)
+- `closeAll.confirmationDialog`: Whether to show a confirmation dialog before closing all tabs with detailed statistics (default: `false`)
 - `closeAll.manageKeybindings`: Customize keyboard shortcuts for Advanced Close All commands (click to open keybinding settings)
 - `closeAll.buttonAction`: Action for the close all button (options: `closeSaved`, `saveAndCloseAll`, `closeAllForce`)
 
@@ -213,7 +213,7 @@ This approach uses VS Code's built-in keybinding management system for the best 
 ```json
 {
   "closeAll.keepCurrentActiveEditor": true,
-  "closeAll.showConfirmationDialog": true,
+  "closeAll.confirmationDialog": true,
   "closeAll.buttonAction": "saveAndCloseAll"
 }
 ```

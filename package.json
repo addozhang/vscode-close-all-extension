@@ -2,7 +2,7 @@
   "name": "advanced-close-all",
   "displayName": "Advanced Close All",
   "description": "Advanced VS Code extension for intelligently closing all tabs with multiple modes: save & close, close saved only, or force close all. Supports closing editors, extension details, settings pages, and all other tab types. Features configurable status bar button, custom keybindings, and smart tab management.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "addozhang",
   "icon": "images/icon.png",
   "engines": {
@@ -62,7 +62,7 @@
           "description": "Whether to keep the current active editor when closing all tabs",
           "scope": "resource"
         },
-        "closeAll.showConfirmationDialog": {
+        "closeAll.confirmationDialog": {
           "type": "boolean",
           "default": false,
           "description": "Whether to show a confirmation dialog before closing all tabs",
