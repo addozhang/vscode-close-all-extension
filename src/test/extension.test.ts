@@ -100,7 +100,7 @@ suite('Configuration Management Tests', () => {
         const validActions = ['closeSaved', 'saveAndCloseAll', 'closeAllForce'];
         
         // Default value should be valid
-        const defaultAction = config.get('buttonAction', 'closeSaved');
+        const defaultAction = (config.get('buttonAction') as string) || 'closeSaved';
         assert.ok(validActions.includes(defaultAction), `Button action default value should be valid: ${defaultAction}`);
     });
 });

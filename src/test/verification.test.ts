@@ -1,5 +1,6 @@
 import * as assert from 'assert';
 import * as vscode from 'vscode';
+import { waitForExtensionActivation, waitForCommand, retry } from './test-helpers';
 
 /**
  * Simplified test suite for quick validation of extension basic functionality
@@ -7,21 +8,35 @@ import * as vscode from 'vscode';
 suite('Quick Validation Tests', () => {
     
     test('Extension command registration verification', async () => {
-        const commands = await vscode.commands.getCommands();
-        
-        const requiredCommands = [
-            'closeAll.closeSaved',
-            'closeAll.saveAndCloseAll', 
-            'closeAll.closeAllForce'
-        ];
-        
-        for (const command of requiredCommands) {
-            assert.ok(
-                commands.includes(command), 
-                `Command ${command} should be registered`
-            );
+        // First execute a command to activate the extension
+        try {
+            await vscode.commands.executeCommand('closeAll.closeSaved');
+        } catch (error) {
+            // Command might fail if extension is not activated yet, that's ok
         }
-        
+
+        // Wait for extension to fully activate using helper
+        const extensionActivated = await waitForExtensionActivation('addozhang.advanced-close-all');
+        assert.ok(extensionActivated, 'Extension should be activated');
+
+        // Use retry mechanism for command verification
+        await retry(async () => {
+            const commands = await vscode.commands.getCommands();
+
+            const requiredCommands = [
+                'closeAll.closeSaved',
+                'closeAll.saveAndCloseAll',
+                'closeAll.closeAllForce'
+            ];
+
+            for (const command of requiredCommands) {
+                assert.ok(
+                    commands.includes(command),
+                    `Command ${command} should be registered`
+                );
+            }
+        });
+
         console.log('✅ All required commands are properly registered');
     });
 
@@ -79,11 +94,14 @@ suite('Quick Validation Tests', () => {
             'confirmationDialog default value should be false'
         );
         
-        const buttonAction = config.get('buttonAction', 'closeSaved');
+        const buttonAction = config.get('buttonAction');
         const validActions = ['closeSaved', 'saveAndCloseAll', 'closeAllForce'];
+
+        // If buttonAction is undefined or empty, it should default to 'closeSaved'
+        const effectiveButtonAction = (buttonAction as string) || 'closeSaved';
         assert.ok(
-            validActions.includes(buttonAction), 
-            `Button action ${buttonAction} should be one of valid values: ${validActions.join(', ')}`
+            validActions.includes(effectiveButtonAction),
+            `Button action ${effectiveButtonAction} should be one of valid values: ${validActions.join(', ')}`
         );
         
         console.log('✅ All configuration default values are correct');

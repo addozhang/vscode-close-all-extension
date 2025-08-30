@@ -118,6 +118,27 @@ async function closeEditors(
         }
     }
 
+    // Handle unsaved changes for force mode BEFORE closing tabs
+    if (mode === 'force') {
+        console.log('Force close mode: discarding unsaved changes');
+
+        // Get all open text documents
+        const openDocuments = vscode.workspace.textDocuments;
+
+        // Discard changes for all unsaved documents
+        for (const document of openDocuments) {
+            if (document.isDirty) {
+                console.log(`Discarding changes for: ${document.fileName}`);
+                try {
+                    // Revert the document to discard unsaved changes
+                    await vscode.commands.executeCommand('workbench.action.files.revert', document.uri);
+                } catch (error) {
+                    console.warn(`Failed to revert ${document.fileName}:`, error);
+                }
+            }
+        }
+    }
+
     // Save all documents if mode is 'saveAll'
     if (mode === 'saveAll') {
         console.log('Saving all documents before closing');

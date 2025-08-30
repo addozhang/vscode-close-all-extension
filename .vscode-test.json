@@ -1,0 +1,20 @@
+{
+  "version": "1.103.2",
+  "settings": {
+    "closeAll.keepCurrentActiveEditor": false,
+    "closeAll.confirmationDialog": false,
+    "closeAll.buttonAction": "closeSaved"
+  },
+  "extensions": [
+    "addozhang.close-all"
+  ],
+  "launchArgs": [
+    "--disable-extensions",
+    "--disable-workspace-trust",
+    "--user-data-dir=/tmp/.vscode-test/user-data",
+    "--extensions-dir=/tmp/.vscode-test/extensions"
+  ],
+  "timeout": 30000,
+  "preLaunchTask": "npm: pretest",
+  "files": "out/test/**/*.test.js"
+}
